@@ -3,20 +3,17 @@
 <div class="container">
   <div class="row">
     <div class="col scrum-column">
-      <app-scrum-column [title]="'To Do'" [state]="'todo'"></app-scrum-column>
+      <app-scrum-column [name]="'To Do'" [state]="'todo'"></app-scrum-column>
       <div class="d-grid gap-2">
-        <button type="button" class="btn btn-primary create-button" data-bs-toggle="modal" data-bs-target="#createModal">
-          New card
-        </button>
+        <app-new-card-form></app-new-card-form>
       </div>
     </div>
     <div class="col scrum-column">
-      <app-scrum-column [title]="'In Progress'" [state]="'in-progress'"></app-scrum-column>
+      <app-scrum-column [name]="'In Progress'" [state]="'in-progress'"></app-scrum-column>
     </div>
     <div class="col scrum-column">
-      <app-scrum-column [title]="'Done'" [state]="'done'"></app-scrum-column>
+      <app-scrum-column [name]="'Done'" [state]="'done'"></app-scrum-column>
     </div>
   </div>
 </div>
 
-<app-new-card-form></app-new-card-form>

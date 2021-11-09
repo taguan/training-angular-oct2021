@@ -10,7 +10,7 @@ import {Card} from '../models/card';
 export class ScrumColumnComponent implements OnInit {
 
   @Input()
-  title: string = '';
+  name: string = '';
 
   @Input()
   state: 'todo' | 'in-progress' | 'done' | undefined;
@@ -21,7 +21,9 @@ export class ScrumColumnComponent implements OnInit {
 
   ngOnInit(): void {
     if (!!this.state) {
-      this.cards = this.cardService.getCardsByState(this.state);
+      this.cardService.getCardsByState(this.state).subscribe((cards: Card[]) => {
+        this.cards = cards;
+      });
 
       if (this.state === 'todo') {
         this.cardService.newCardEmitter.subscribe((card) => {

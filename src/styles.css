@@ -16,7 +16,7 @@
   cursor: grab;
 }
 
-.scrum-card-title {
+.scrum-card-name {
   display: flex;
   justify-content: space-between;
 }

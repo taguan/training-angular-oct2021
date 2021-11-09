@@ -1,28 +1,27 @@
-<!-- Modal -->
-<div class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="createModalLabel">New card</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form [formGroup]="newCardForm">
-          <div class="mb-3">
-            <label for="titleInput" class="form-label">Title</label>
-            <input type="text" class="form-control" id="titleInput" formControlName="title">
-            <small class="form-text text-danger" *ngIf="!newCardForm.get('title')?.valid">Title is invalid</small>
-          </div>
-          <div class="mb-3">
-            <label for="descriptionInput" class="form-label">Description</label>
-            <textarea class="form-control" id="descriptionInput" formControlName="description"></textarea>
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" [disabled]="!newCardForm.valid" (click)="createCard()" data-bs-dismiss="modal">Create</button>
-      </div>
+<button type="button" class="btn btn-primary create-button" (click)="open(newCardModal)">
+  New card
+</button>
+
+<ng-template #newCardModal let-modal>
+    <div class="modal-header">
+      <h5 class="modal-title" id="createModalLabel">New card</h5>
+      <button type="button" class="btn-close"  aria-label="Close" (click)="modal.dismiss()"></button>
     </div>
-  </div>
-</div>
+    <div class="modal-body">
+      <form [formGroup]="newCardForm">
+        <div class="mb-3">
+          <label for="nameInput" class="form-label">name</label>
+          <input type="text" class="form-control" id="nameInput" formControlName="name">
+          <small class="form-text text-danger" *ngIf="!newCardForm.get('name')?.valid">name is invalid</small>
+        </div>
+        <div class="mb-3">
+          <label for="descriptionInput" class="form-label">Description</label>
+          <textarea class="form-control" id="descriptionInput" formControlName="description"></textarea>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">Close</button>
+      <button type="button" class="btn btn-primary" [disabled]="!newCardForm.valid" (click)="createCard()">Create</button>
+    </div>
+</ng-template>

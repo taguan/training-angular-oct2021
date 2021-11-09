@@ -1,33 +1,26 @@
 import {EventEmitter, Injectable} from '@angular/core';
 import {Card} from './models/card';
+import {CardApiService} from './api/card-api.service';
+import {Observable} from 'rxjs';
+import {map} from 'rxjs/operators';
 
 @Injectable()
 export class CardService {
 
-  private todoCards = [new Card('Card 1', 'The description of my Card', 'todo'),
-    new Card('Card 2', 'The description of my Card', 'todo'),
-    new Card('Card 3', 'The description of my Card', 'todo')];
-
   public newCardEmitter = new EventEmitter<Card>();
 
-  constructor() { }
+  constructor(private cardApiService: CardApiService) { }
 
-  public addCard(card: Card): void {
-    this.todoCards.push(card);
-    this.newCardEmitter.emit(card);
+  public addCard(card: Card): Observable<Card> {
+    return this.cardApiService.createCard(card).pipe(
+      map((cardFromServer) => {
+        this.newCardEmitter.emit(cardFromServer);
+        return cardFromServer;
+      }));
+
   }
 
-  public getCardsByState(state: 'todo' | 'in-progress' | 'done'): Card[] {
-    switch (state) {
-      case 'todo':
-        const cards = [];
-        cards.push(...this.todoCards);
-        return cards;
-      case 'in-progress':
-        return [new Card('Card 4', 'The description of my Card', state),
-          new Card('Card 5', 'The description of my Card', state)];
-      case 'done':
-        return [new Card('Card 6', 'The description of my Card', state)];
-    }
+  public getCardsByState(state: 'todo' | 'in-progress' | 'done'): Observable<Card[]> {
+    return this.cardApiService.getCards(state);
   }
 }

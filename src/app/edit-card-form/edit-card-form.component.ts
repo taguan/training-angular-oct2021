@@ -2,6 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {CardService} from '../card.service';
 import {Card} from '../models/card';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgbModalRef} from '@ng-bootstrap/ng-bootstrap/modal/modal-ref';
 
 @Component({
   selector: 'app-edit-card-form',
@@ -10,28 +12,36 @@ import {Card} from '../models/card';
 })
 export class EditCardFormComponent implements OnInit {
 
+  private modalRef: NgbModalRef | undefined;
+
+
   @Input()
   card: Card | undefined;
 
   editCardForm = new FormGroup({
-    title: new FormControl('', [Validators.required, Validators.minLength(4)]),
+    name: new FormControl('', [Validators.required, Validators.minLength(4)]),
     description: new FormControl()
   });
 
-  constructor(private cardService: CardService) { }
+  constructor(private cardService: CardService, private modalService: NgbModal) { }
 
   ngOnInit(): void {
     this.editCardForm.setValue({
-      title: this.card?.title,
+      name: this.card?.name,
       description: this.card?.description
     });
   }
 
   editCard() {
     if(this.card && this.editCardForm.valid) {
-      this.card.title = this.editCardForm.get('title')?.value;
+      this.card.name = this.editCardForm.get('name')?.value;
       this.card.description = this.editCardForm.get('description')?.value;
+      this.modalRef?.close();
     }
+  }
+
+  open(content: any) {
+    this.modalRef = this.modalService.open(content);
   }
 
 }
